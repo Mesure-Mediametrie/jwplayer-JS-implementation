@@ -84,6 +84,7 @@ setConfigAndListeners= function() {
             window.setTimeout(setDuree, 1000);
         }
         streamingTagModeStandard.notifyPlayer("play");
+        console.log("play");
     });
     jwplayer().onPause(function(e){
         streamingTagModeStandard.notifyPlayer("pause");
@@ -97,6 +98,10 @@ setConfigAndListeners= function() {
         console.log("seeking from " + Math.round(e.position)+" to "+Math.round(e.offset));
         streamingTagModeStandard.notifyPlayer("pause", Math.round(e.position));
         streamingTagModeStandard.notifyPlayer("play", Math.round(e.offset));
+    });
+    jwplayer().onBuffer(function(e){
+        console.log("buffer");
+        streamingTagModeStandard.notifyPlayer("pause");
     });
 }
 
