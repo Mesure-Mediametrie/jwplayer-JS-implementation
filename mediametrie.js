@@ -89,7 +89,7 @@ setConfigAndListeners= function() {
         streamingTagModeStandard.notifyPlayer("pause");
         console.log("pause");
     });
-    jwplayer().onComplete(function(e){
+    jwplayer().onIdle(function(e){
         streamingTagModeStandard.notifyPlayer("stop");
         console.log("stop");
     });
