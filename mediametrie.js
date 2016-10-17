@@ -19,6 +19,10 @@ var confStreamTagModeStandard = {
 // variable for beacon object
 var streamingTagModeStandard;
 
+// flag for player and tagger loading
+var isPlayerReady=false;
+var isTaggerReady=false;
+
 // The API will call this function when the video player is ready
 var eS 		= document.createElement('script');
 eS.type 	= 'text/javascript';
@@ -39,7 +43,12 @@ if(eS.addEventListener) { // for all browsers except old IEs (< 9)
     };
 }
 eSloaded = function() {
-    streamingTagModeStandard        = new eStatTag(confStreamTagModeStandard)
+    console.log("Tagger Loaded");
+    streamingTagModeStandard = new eStatTag(confStreamTagModeStandard);
+    isTaggerReady = true;
+    if (isPlayerReady) {
+        setConfigAndListeners();
+    }
 };
 
 
@@ -53,8 +62,16 @@ function getPos() {
 
 // The jwplayer API will call this function when the video player is ready.
 jwplayer().onReady(function(e) {
+    console.log("JW Player Loaded");
+    isPlayerReady = true;
+    if (isTaggerReady) {
+        setConfigAndListeners();
+    }
+});
+
+// Method called when tagger AND player are ready
+setConfigAndListeners= function() {
     // Set some data which are now available
-    console.log("JW PLayer Loaded");
     setDuree();
     setPlayerObj();
     setName();
@@ -68,39 +85,33 @@ jwplayer().onReady(function(e) {
         }
         streamingTagModeStandard.notifyPlayer("play");
     });
-
     jwplayer().onPause(function(e){
         streamingTagModeStandard.notifyPlayer("pause");
         console.log("pause");
     });
-
     jwplayer().onComplete(function(e){
         streamingTagModeStandard.notifyPlayer("stop");
         console.log("stop");
     });
-
     jwplayer().onSeek(function(e){
         console.log("seeking from " + Math.round(e.position)+" to "+Math.round(e.offset));
         streamingTagModeStandard.notifyPlayer("pause", Math.round(e.position));
         streamingTagModeStandard.notifyPlayer("play", Math.round(e.offset));
     });
-});
+}
 
-// custome function to set data
+// custom functions to set data
 setDuree = function() {
     maDuree = Math.round(jwplayer().getDuration());
     streamingTagModeStandard.set({streaming:{streamDuration:maDuree}});
 }
-
 setPlayerObj = function() {
     streamingTagModeStandard.set({streaming:{playerObj:jwplayer()}});
 }
-
 setName = function() {
     name=jwplayer().getPlaylistItem().title;
     streamingTagModeStandard.set({streaming:{streamName:name}});
 }
-
 setUrl = function() {
     url=jwplayer().getPlaylistItem().file;
     streamingTagModeStandard.set({streaming:{streamURL:url}});
