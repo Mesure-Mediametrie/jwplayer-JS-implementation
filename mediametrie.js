@@ -43,7 +43,6 @@ if(eS.addEventListener) { // for all browsers except old IEs (< 9)
     };
 }
 eSloaded = function() {
-    console.log("Tagger Loaded");
     streamingTagModeStandard = new eStatTag(confStreamTagModeStandard);
     isTaggerReady = true;
     if (isPlayerReady) {
@@ -62,7 +61,6 @@ function getPos() {
 
 // The jwplayer API will call this function when the video player is ready.
 jwplayer().onReady(function(e) {
-    console.log("JW Player Loaded");
     isPlayerReady = true;
     if (isTaggerReady) {
         setConfigAndListeners();
@@ -84,23 +82,18 @@ setConfigAndListeners= function() {
             window.setTimeout(setDuree, 1000);
         }
         streamingTagModeStandard.notifyPlayer("play");
-        console.log("play");
     });
     jwplayer().onPause(function(e){
         streamingTagModeStandard.notifyPlayer("pause");
-        console.log("pause");
     });
     jwplayer().onIdle(function(e){
         streamingTagModeStandard.notifyPlayer("stop");
-        console.log("stop");
     });
     jwplayer().onSeek(function(e){
-        console.log("seeking from " + Math.round(e.position)+" to "+Math.round(e.offset));
         streamingTagModeStandard.notifyPlayer("pause", Math.round(e.position));
         streamingTagModeStandard.notifyPlayer("play", Math.round(e.offset));
     });
     jwplayer().onBuffer(function(e){
-        console.log("buffer");
         streamingTagModeStandard.notifyPlayer("pause");
     });
 }
