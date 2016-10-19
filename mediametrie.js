@@ -27,7 +27,7 @@ var isTaggerReady=false;
 var eS 		= document.createElement('script');
 eS.type 	= 'text/javascript';
 eS.async 	= true;
-eS.src 		= 'https://prof.estat.com/js/mu-integration-5.2.2.js';
+eS.src 		= 'https://prof.estat.com/js/mu-integration-5.2.js';
 var s		= document.getElementsByTagName('script')[0];
 s.parentNode.insertBefore(eS, s);
 // eSloaded method is called when the Mediametrie library is loaded
