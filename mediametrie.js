@@ -70,7 +70,7 @@ jwplayer().onReady(function(e) {
 // Method called when tagger AND player are ready
 setConfigAndListeners= function() {
     // Set some data which are now available
-    setDuree();
+    setDuration();
     setPlayerObj();
     setName();
     setUrl();
@@ -79,7 +79,7 @@ setConfigAndListeners= function() {
     jwplayer().onPlay(function(e) {
         // Hack to avoid duration to -1 when the player is not completly set
         if(Math.round(jwplayer().getDuration())==-1) {
-            window.setTimeout(setDuree, 1000);
+            window.setTimeout(setDuration, 1000);
         }
         streamingTagModeStandard.notifyPlayer("play");
     });
@@ -99,9 +99,9 @@ setConfigAndListeners= function() {
 }
 
 // custom functions to set data
-setDuree = function() {
-    maDuree = Math.round(jwplayer().getDuration());
-    streamingTagModeStandard.set({streaming:{streamDuration:maDuree}});
+setDuration = function() {
+    duration = Math.round(jwplayer().getDuration());
+    streamingTagModeStandard.set({streaming:{streamDuration:duration}});
 }
 setPlayerObj = function() {
     streamingTagModeStandard.set({streaming:{playerObj:jwplayer()}});
